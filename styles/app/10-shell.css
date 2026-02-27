@@ -1,61 +1,19 @@
-.appShell {
-  min-height: 100dvh;
-  background: var(--color-bg);
-  color: var(--color-text);
-}
-
-/* näkyvyyslogiikka */
-.appSidebar,
-.appTopbar,
-.appTabbar {
-  display: none;
-}
-
-@media (max-width: 639px) {
-  .appTabbar { display: block; }
-}
-
-@media (min-width: 640px) and (max-width: 1023px) {
-  .appTopbar { display: block; }
-}
-
-@media (min-width: 1024px) {
-  .appSidebar { display: block; }
-  .appShell {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-  }
-}
-
-/* content “inner” ettei leviä */
-.appMain {
-  padding: var(--space-5) var(--space-4);
-}
-
-.appMain__inner {
-  max-width: 1100px;
-}
-
-/* desktop: sisällön keskitys */
-@media (min-width: 1024px) {
-  .appMain__inner {
-    margin: 0 auto;
-  }
-}
-
-/* mobile: jätä tilaa tabbarille */
-@media (max-width: 639px) {
-  .appMain {
-    padding-bottom: calc(var(--space-6) + 72px + env(safe-area-inset-bottom));
-  }
-}
-@media (max-width: 639px) {
-  .appTabbar .navLabel {
-    display: none;
-  }
-}
-@media (min-width: 640px) and (max-width: 1023px) {
-  .appTopbar__nav .navLabel {
-    display: none;
-  }
+.appShell{display:grid;grid-template-columns:260px 1fr;min-height:100dvh}
+.appTopbar{display:none}
+.appSidebar{position:sticky;top:0;height:100dvh;padding:18px 14px}
+.appSidebar__inner{height:100%;display:grid;grid-template-rows:auto 1fr auto;gap:14px;background:rgba(255,255,255,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.7);box-shadow:0 10px 30px rgba(17,24,39,.08);border-radius:22px;padding:14px}
+.appBrand__text{font-weight:700;letter-spacing:-.02em}
+.appMain{padding:18px 20px 24px}
+.appMain__inner{max-width:1120px;margin:0 auto;display:grid;gap:16px}
+.appSidebar__profile{display:flex;gap:10px;align-items:center;background:#f8f9fc;border:1px solid #e8ebf2;padding:10px;border-radius:14px}
+.appSidebar__profileSub{font-size:.82rem;color:#6b7280}
+.appSidebar__profileName{font-weight:600;font-size:.9rem}
+.appTabbar{display:none}
+@media (max-width:960px){
+  .appShell{display:block;padding-top:64px;padding-bottom:76px}
+  .appSidebar{display:none}
+  .appTopbar{display:block;position:fixed;top:0;left:0;right:0;z-index:20;padding:10px}
+  .appTopbar__inner{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;background:rgba(255,255,255,.78);backdrop-filter:blur(16px);border:1px solid #eef1f7;border-radius:14px;padding:8px 12px}
+  .appTabbar{display:block;position:fixed;bottom:0;left:0;right:0;padding:10px;z-index:20}
+  .appTabbar__inner{display:grid;grid-template-columns:1fr auto;align-items:center;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);border:1px solid #e8ecf5;border-radius:16px;padding:6px 10px}
 }

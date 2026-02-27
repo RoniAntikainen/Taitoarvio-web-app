@@ -1,0 +1,4 @@
+input,select,textarea,.input,.settingsControl{width:100%;border:1px solid #dce2ee;background:#fff;border-radius:12px;padding:10px 12px;outline:none}
+input:focus,select:focus,textarea:focus,.input:focus,.settingsControl:focus{border-color:#9db6ff;box-shadow:0 0 0 4px rgba(59,130,246,.12)}
+label,.settingsLabel{font-size:.86rem;font-weight:600;color:#4b5563;margin-bottom:6px;display:block}
+form{display:grid;gap:10px}

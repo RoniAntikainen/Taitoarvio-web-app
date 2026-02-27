@@ -1,0 +1,7 @@
+button,.btn{appearance:none;border:1px solid #d6dbe6;background:#fff;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;transition:.2s ease}
+button:hover,.btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(17,24,39,.08)}
+button:disabled,.btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+.btn--primary{background:#111827;color:#fff;border-color:#111827}
+.btn--secondary{background:#f8f9fd}
+.btn--danger{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+.btn--ghost{background:transparent}

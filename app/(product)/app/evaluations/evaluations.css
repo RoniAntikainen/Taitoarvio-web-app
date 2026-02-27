@@ -1,2 +1,4 @@
-.evaluationsPage { display:grid; gap:16px; }
-.evalCard { background:#fff; border:1px solid #d8dde6; border-radius:12px; padding:14px; display:grid; gap:6px; }
+.evaluationsPage{display:grid;gap:14px}
+.folderFilter{display:flex;gap:8px;flex-wrap:wrap}
+.folderFilter a{padding:8px 10px;background:#f3f5fa;border:1px solid #e6eaf2;border-radius:999px;font-size:.85rem}
+.evalCard{padding:14px;display:grid;gap:6px}

@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { requireEmail, requireFolderAccess } from "@/lib/access";
+import { requireCoachUser } from "@/lib/auth/session";
 
 export async function listFolderItems(folderId: string, type?: string) {
   const session = await auth();
@@ -65,6 +66,7 @@ export async function createFolderCommentFromForm(folderId: string, formData: Fo
 export async function createFolderItem(folderId: string, type: string, title: string, content: string) {
   const session = await auth();
   const me = requireEmail(session);
+  await requireCoachUser();
 
   await requireFolderAccess(folderId, me, "editor");
 
@@ -85,6 +87,7 @@ export async function createFolderItem(folderId: string, type: string, title: st
 export async function updateFolderItem(itemId: string, content: string) {
   const session = await auth();
   const me = requireEmail(session);
+  await requireCoachUser();
 
   const item = await prisma.folderItem.findUnique({
     where: { id: itemId },
@@ -105,6 +108,7 @@ export async function updateFolderItem(itemId: string, content: string) {
 export async function deleteFolderItem(itemId: string) {
   const session = await auth();
   const me = requireEmail(session);
+  await requireCoachUser();
 
   const item = await prisma.folderItem.findUnique({
     where: { id: itemId },

@@ -5,6 +5,8 @@ import {
   saveFolderProfileFromForm,
 } from "@/app/actions/folder-sections";
 import "./folder-settings.css";
+import { getCurrentUser } from "@/lib/auth/session";
+import { canManageWorkspace } from "@/lib/auth/permissions";
 
 function roleLabel(role: string) {
   if (role === "owner") return "Omistaja";
@@ -21,9 +23,10 @@ export default async function FolderSettingsPage({
   const { folderId } = await params;
   const { folder, role } = await getFolderView(folderId);
   const profile = await getFolderProfile(folderId);
+  const user = await getCurrentUser();
 
-  const canEdit = role !== "viewer" && role !== "student";
-  const canManageMembers = role === "owner";
+  const canEdit = role !== "viewer" && role !== "student" && canManageWorkspace(user);
+  const canManageMembers = role === "owner" && canManageWorkspace(user);
 
   return (
     <div className="fs-page">

@@ -5,6 +5,8 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { requireEmail, requireFolderAccess } from "@/lib/access";
+import { requireCurrentUser } from "@/lib/auth/session";
+import { canCreateSession } from "@/lib/auth/permissions";
 
 export type ActionResult<T> =
   | { ok: true; data: T }
@@ -61,6 +63,8 @@ export async function createFolderMeeting(
   try {
     const session = await auth();
     const me = requireEmail(session);
+    const user = await requireCurrentUser();
+    if (!canCreateSession(user)) return { ok: false, error: "Vain coach voi luoda sessioita." };
     await requireFolderAccess(folderId, me, "editor");
 
     const title = String(payload.title ?? "").trim();
@@ -110,6 +114,8 @@ export async function updateMeeting(
   try {
     const session = await auth();
     const me = requireEmail(session);
+    const user = await requireCurrentUser();
+    if (!canCreateSession(user)) return { ok: false, error: "Vain coach voi hallita sessioita." };
 
     const current = await prisma.meeting.findUnique({
       where: { id: String(meetingId) },
@@ -159,6 +165,8 @@ export async function deleteMeeting(meetingId: string): Promise<ActionResult<{ o
   try {
     const session = await auth();
     const me = requireEmail(session);
+    const user = await requireCurrentUser();
+    if (!canCreateSession(user)) return { ok: false, error: "Vain coach voi poistaa sessioita." };
 
     const current = await prisma.meeting.findUnique({
       where: { id: String(meetingId) },

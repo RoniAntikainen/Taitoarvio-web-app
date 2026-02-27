@@ -40,7 +40,7 @@ export async function createEvaluation(input: CreateEvaluationInput) {
   const me = requireEmail(session);
 
   const folderId = String(input.folderId);
-  await requireFolderAccess(folderId, me, "editor");
+  await requireFolderAccess(folderId, me, "viewer");
 
   const ent = getEntitlement(session);
   await assertEvaluationLimit(folderId, ent.status);

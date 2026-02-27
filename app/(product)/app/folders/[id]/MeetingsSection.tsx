@@ -1,3 +1,4 @@
+import type { Role } from "@/lib/auth/domain";
 import { redirect } from "next/navigation";
 import {
   createFolderMeeting,
@@ -19,12 +20,14 @@ function toDTLocalValue(d: Date) {
 export default async function MeetingsSection({
   folderId,
   role,
+  userRole,
 }: {
   folderId: string;
   role: "owner" | "editor" | "viewer" | "student";
+  userRole: Role;
 }) {
   const meetings = await listFolderMeetings(folderId);
-  const canEdit = role === "owner" || role === "editor";
+  const canEdit = (role === "owner" || role === "editor") && userRole === "coach";
 
   return (
     <div className="fd-stack">

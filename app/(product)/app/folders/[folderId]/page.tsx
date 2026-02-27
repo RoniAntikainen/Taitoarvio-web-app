@@ -12,6 +12,8 @@ import {
   saveUpcomingJsonFromForm,
 } from "@/app/actions/folder-sections";
 import { createFolderEvaluationFromForm } from "@/app/actions/folder-evaluations";
+import { getCurrentUser } from "@/lib/auth/session";
+import { canManageWorkspace } from "@/lib/auth/permissions";
 import ResultsEditor from "@/components/folders/ResultsEditor";
 import UpcomingPicker from "@/components/folders/UpcomingPicker";
 import FolderAnalyticsCards from "@/components/folders/FolderAnalyticsCards";
@@ -56,7 +58,9 @@ export default async function FolderDetailPage({
 
   const evaluations = await listFolderEvaluations(folderId);
   const comments = await listFolderComments(folderId);
-  const canEdit = role === "owner" || role === "editor";
+  const user = await getCurrentUser();
+  const canEdit = (role === "owner" || role === "editor") && canManageWorkspace(user);
+  const canEvaluate = role !== "viewer";
 
   return (
     <div className="fd-page">
@@ -79,12 +83,14 @@ export default async function FolderDetailPage({
               <Link className="btn btn--secondary" href="/app/folders">
                 Takaisin
               </Link>
-              <Link
-                className="btn btn--secondary"
-                href={`/app/folders/${folderId}/settings`}
-              >
-                Asetukset
-              </Link>
+              {canEdit && (
+                <Link
+                  className="btn btn--secondary"
+                  href={`/app/folders/${folderId}/settings`}
+                >
+                  Asetukset
+                </Link>
+              )}
             </div>
 
             {role !== "owner" && (
@@ -119,7 +125,7 @@ export default async function FolderDetailPage({
           {canEdit
             ? "Voit muokata tämän kansion tietoja."
             : role === "student"
-              ? "Oppilasrooli: voit selata sisältöjä ja kommentoida."
+              ? "Oppilasrooli: voit arvioida ja kommentoida."
               : "Sinulla on vain lukuoikeus."}
         </div>
       </section>
@@ -214,7 +220,7 @@ export default async function FolderDetailPage({
           </div>
         </div>
 
-        {canEdit ? (
+        {canEvaluate ? (
           <form
             action={createFolderEvaluationFromForm}
             className="fd-card fd-form"
@@ -365,7 +371,7 @@ export default async function FolderDetailPage({
           </div>
         </div>
 
-        <MeetingsSection folderId={folderId} role={role} />
+        <MeetingsSection folderId={folderId} role={role} userRole={user?.role ?? "student"} />
       </section>
     </div>
   );

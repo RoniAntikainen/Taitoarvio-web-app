@@ -1,8 +1,10 @@
 import CalendarClient from "./CalendarClient";
 import { listMyCalendarMeetings } from "@/app/actions/meetings";
 import "./calendar.css";
+import { requireRole } from "@/lib/auth/guards";
 
 export default async function CalendarPage() {
+  await requireRole("coach");
   const meetings = await listMyCalendarMeetings(); // kaikki
 
   return (

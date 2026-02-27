@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { requireEmail, requireFolderAccess } from "@/lib/access";
+import { requireCoachUser } from "@/lib/auth/session";
 
 /**
  * NOTE:
@@ -48,7 +49,6 @@ function safeJsonStringFromForm(formData: FormData, field: string) {
 export async function listSections(folderId: string) {
   const session = await auth();
   const me = requireEmail(session);
-
   const fid = String(folderId);
   await requireFolderAccess(fid, me, "viewer");
 
@@ -105,6 +105,7 @@ export async function listSections(folderId: string) {
 export async function createSection(folderId: string, title: string) {
   const session = await auth();
   const me = requireEmail(session);
+  await requireCoachUser();
 
   const fid = String(folderId);
   await requireFolderAccess(fid, me, "editor");
@@ -128,6 +129,7 @@ export async function createSection(folderId: string, title: string) {
 export async function renameSection(sectionItemId: string, title: string) {
   const session = await auth();
   const me = requireEmail(session);
+  await requireCoachUser();
 
   const s = await prisma.folderItem.findUnique({
     where: { id: String(sectionItemId) },
@@ -149,6 +151,7 @@ export async function renameSection(sectionItemId: string, title: string) {
 export async function deleteSection(sectionItemId: string) {
   const session = await auth();
   const me = requireEmail(session);
+  await requireCoachUser();
 
   const s = await prisma.folderItem.findUnique({
     where: { id: String(sectionItemId) },
@@ -167,6 +170,7 @@ export async function deleteSection(sectionItemId: string) {
 export async function attachItemToSection(sectionItemId: string, folderItemId: string) {
   const session = await auth();
   const me = requireEmail(session);
+  await requireCoachUser();
 
   const s = await prisma.folderItem.findUnique({
     where: { id: String(sectionItemId) },
@@ -198,6 +202,7 @@ export async function attachItemToSection(sectionItemId: string, folderItemId: s
 export async function detachItemFromSection(sectionItemId: string, folderItemId: string) {
   const session = await auth();
   const me = requireEmail(session);
+  await requireCoachUser();
 
   const s = await prisma.folderItem.findUnique({
     where: { id: String(sectionItemId) },
@@ -223,6 +228,7 @@ export async function detachItemFromSection(sectionItemId: string, folderItemId:
 export async function reorderSectionItems(sectionItemId: string, orderedFolderItemIds: string[]) {
   const session = await auth();
   const me = requireEmail(session);
+  await requireCoachUser();
 
   const s = await prisma.folderItem.findUnique({
     where: { id: String(sectionItemId) },
@@ -331,6 +337,7 @@ export async function saveSectionFromForm(folderId: string, key: string, formDat
 export async function saveSectionFromForm(a: any, b?: any, c?: any): Promise<void> {
   const session = await auth();
   const me = requireEmail(session);
+  await requireCoachUser();
 
   // case 1: saveSectionFromForm(formData)
   if (a instanceof FormData) {
@@ -442,6 +449,7 @@ export async function saveFolderProfileFromForm(folderId: string, formData: Form
 export async function saveFolderProfileFromForm(a: any, b?: any): Promise<void> {
   const session = await auth();
   const me = requireEmail(session);
+  await requireCoachUser();
 
   const formData = a instanceof FormData ? a : (b as FormData);
   const folderId = a instanceof FormData ? String(formData.get("folderId") ?? "").trim() : String(a ?? "").trim();

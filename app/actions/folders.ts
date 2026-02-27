@@ -11,6 +11,8 @@ import {
   getEntitlement,
 } from "@/lib/access";
 import { assertFolderLimit } from "@/lib/limits";
+import { requireCurrentUser } from "@/lib/auth/session";
+import { canManageWorkspace } from "@/lib/auth/permissions";
 
 type MemberRole = "viewer" | "editor" | "student";
 
@@ -31,6 +33,8 @@ export async function createFolder(
   try {
     const session = await auth();
     const ownerEmail = requireEmail(session);
+    const user = await requireCurrentUser();
+    if (!canManageWorkspace(user)) return { ok: false, error: "Vain coach voi luoda workspaceja." };
 
     const ent = getEntitlement(session);
     await assertFolderLimit(ownerEmail, ent.status);
@@ -110,6 +114,8 @@ export async function getFolderView(folderId: string) {
 export async function addMember(folderId: string, userEmail: string, role: MemberRole = "viewer") {
   const session = await auth();
   const me = requireEmail(session);
+  const user = await requireCurrentUser();
+  if (!canManageWorkspace(user)) throw new Error("Vain coach voi kutsua muita valmentajia.");
 
   const { folder, role: myRole } = await requireFolderAccess(folderId, me, "owner");
   if (myRole !== "owner") throw new Error("No access");
@@ -147,6 +153,8 @@ export async function addMemberFromForm(folderId: string, formData: FormData) {
 export async function removeMember(folderId: string, userEmail: string) {
   const session = await auth();
   const me = requireEmail(session);
+  const user = await requireCurrentUser();
+  if (!canManageWorkspace(user)) throw new Error("Vain coach voi hallita workspace-jäseniä.");
 
   const { folder, role } = await requireFolderAccess(folderId, me, "owner");
   if (role !== "owner") throw new Error("No access");

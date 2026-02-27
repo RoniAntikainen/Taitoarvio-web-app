@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": ".tmp-tests",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2019",
+    "isolatedModules": false,
+    "allowJs": false,
+    "declaration": false,
+    "incremental": false,
+    "paths": {}
+  },
+  "include": [
+    "tests/domain/skating.test.ts",
+    "lib/domain/judging/scoring.ts",
+    "lib/domain/judging/types.ts"
+  ]
+}

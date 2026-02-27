@@ -1,0 +1,17 @@
+.judgingPage{display:grid;gap:16px}
+.judgingHeader p{max-width:70ch}
+.stepper{display:flex;gap:10px;flex-wrap:wrap}
+.stepper span{padding:6px 10px;border-radius:999px;background:#eef2ff;color:#374151;font-weight:600;font-size:.8rem}
+.cardGrid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{padding:16px;display:grid;gap:10px}
+.stack{display:grid;gap:8px}
+.inlineLinks{display:flex;flex-wrap:wrap;gap:8px}
+.inlineLinks a{padding:6px 10px;background:#f4f6fb;border:1px solid #e5e9f1;border-radius:999px;font-size:.82rem}
+.top3{background:#fffbeb}
+.commentForm{margin-top:10px}
+.commentList article{border-top:1px solid #edf1f7;padding-top:10px;margin-top:10px}
+.roleBadge{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.roleBadge--pro{background:#e7f8ee;color:#11652f}
+.roleBadge--free{background:#f4f5f7;color:#465063}
+.proLock{width:100%;display:flex;justify-content:space-between;align-items:center;border:1px dashed #a3acbc;border-radius:12px;padding:8px 10px;background:#f9fafc;color:#495266}
+.proPill{background:#111827;color:#fff;border-radius:999px;font-size:11px;padding:2px 8px}

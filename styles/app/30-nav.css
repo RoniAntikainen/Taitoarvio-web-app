@@ -1,0 +1,4 @@
+.appSidebar__nav,.appTopbar__nav,.appTabbar__nav{display:flex;gap:8px;flex-wrap:wrap}
+.appSidebar__nav a,.appTopbar__nav a,.appTabbar__nav a{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;color:#4b5563}
+.appSidebar__nav a:hover,.appTopbar__nav a:hover,.appTabbar__nav a:hover{background:#f0f4ff;color:#111827}
+.navLabel{font-size:.9rem;font-weight:600}

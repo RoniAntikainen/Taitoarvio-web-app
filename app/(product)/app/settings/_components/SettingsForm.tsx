@@ -67,7 +67,7 @@ export default function SettingsForm({ initial }: Props) {
                 </option>
               ))}
             </select>
-            {state?.fieldErrors?.defaultSportId ? <div className="settingsError">{state.fieldErrors.defaultSportId}</div> : null}
+            {state && !state.ok && state.fieldErrors?.defaultSportId ? <div className="settingsError">{state.fieldErrors.defaultSportId}</div> : null}
           </div>
 
           <div className="settingsField">

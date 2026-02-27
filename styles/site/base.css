@@ -1,8 +1,2 @@
-/* styles/base.css */
-html {
-  font-family: var(--font-sans);
-}
-
-body[data-scope="marketing"] {
-  background: var(--color-bg);
-}
+body[data-scope="site"]{font-family:var(--font-sans,Inter,system-ui);background:#f7f8fb;color:#111827}
+main{display:grid;gap:24px}

@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Taitoarvio Web App (MVP)
 
-## Getting Started
+Moderni arviointi- ja tuomarointisovellus, jossa on kaksi roolia:
+- **Valmentaja (Pro)**: hallitsee workspaceja, sessioita ja yhteistuomarointia.
+- **Oppilas (Free)**: harjoittelee tuomarointia read-only aineistolla, tekee omia luonnoksia ja kommentoi.
 
-First, run the development server:
+## Arkkitehtuuri
+
+Sovellus on toteutettu Next.js App Routerilla ja jaettu kerroksiin:
+
+- `lib/domain/judging/*`: sport-agnostic domain-logiikka (rubriikit, ranking, aggregointi, skating).
+- `lib/data/judging/*`: repository-rajapinta + localStorage implementaatio + demo seed.
+- `lib/auth/permissions.ts`: roolien feature-gating.
+- `lib/features/flags.ts`: ominaisuuksien togglet.
+- `components/judging/*`: Apple-tyylinen UI (CSS Modules + tokenit).
+
+### Sport-agnostic malli
+
+`SportDefinition` määrittelee rubriikin datana (`rubric -> elements -> criteria`).
+UI renderöi rubriikin konfiguraation perusteella, joten uuden lajin lisääminen tehdään lisäämällä sport-konfiguraatio.
+
+### Arviointitavat
+
+- **Deep**: elementti + alakriteeri + tasot 1–6, tasokuvaukset tooltip-teksteinä valinnoissa.
+- **Quick**: kevyt pisteytys per pari (1–6).
+
+### Yhteistuomarointi
+
+Session judge-cardit yhdistetään domainin aggregointi- ja skating-funktioilla:
+- yksittäisten tuomareiden sijoitukset
+- yhteissijoitus enemmistölogiikalla
+- podium + taulukko
+
+## Roolioikeudet (feature gating)
+
+- Oppilas (Free): `session.read`, `session.practice`, `comment.write`
+- Valmentaja (Pro): kaikki yllä + `workspace.manage`, `session.create`, `session.lock`, `coach.invite`
+
+## Kehitys
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Testit
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Skating- ja aggregointilogiikan yksikkötestit:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run test
+```
 
-## Learn More
+## Jatkokehitysideoita
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Pro-tier maksullisuus (Stripe feature entitlements + workspace seat limits)
+2. Sessio/analytiikka (coach benchmark, oppilaan kehityskäyrät)
+3. Exportit (PDF, CSV, share snapshots)
+4. Video-integraatio (timestamp-kommentit + side-by-side arviointi)
+5. Reaaliaikainen yhteistuomarointi (WebSocket/CRDT)

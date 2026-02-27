@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "test": "tsc -p tsconfig.tests.json && node .tmp-tests/tests/domain/skating.test.js"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",

@@ -1,0 +1,28 @@
+@import "../../styles/app/tokens/judging-tokens.css";
+
+.shell { display: grid; gap: var(--space-6); color: var(--app-fg); }
+.header, .card { background: var(--app-surface); border: 1px solid var(--app-border); border-radius: var(--radius-xl); box-shadow: var(--shadow-soft); padding: var(--space-5); }
+.header { display: flex; justify-content: space-between; align-items: center; }
+.roleSwitch select, .criterionRow select, .criterionRow input, .commentPanel textarea { background: var(--app-bg); border: 1px solid var(--app-border); border-radius: var(--radius-md); color: inherit; padding: .5rem .75rem; }
+.dashboard { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: var(--space-4); }
+.sessionButton { width: 100%; text-align: left; border: 1px solid var(--app-border); border-radius: var(--radius-md); background: transparent; color: inherit; padding: .75rem; margin-top: .5rem; }
+.pillRow { display: flex; flex-wrap: wrap; gap: .5rem; }
+.pill { background: var(--app-bg); border-radius: 999px; padding: .35rem .7rem; border: 1px solid var(--app-border); }
+.sessionHeader { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap; }
+.tabRow { display:flex; gap:.5rem; }
+.tab, .tabActive, .primaryButton { border-radius: var(--radius-md); border:1px solid var(--app-border); padding:.45rem .8rem; background:transparent; color:inherit; }
+.tabActive, .primaryButton { background: var(--app-accent); color: white; border-color: transparent; }
+.evaluationLayout { display:grid; grid-template-columns: 240px 1fr; gap: var(--space-4); }
+.competitorList { border-right:1px solid var(--app-border); padding-right: var(--space-4); }
+.competitorItem { padding:.6rem 0; display:grid; }
+.accordion { border:1px solid var(--app-border); border-radius: var(--radius-md); padding:.75rem; margin-bottom:.75rem; }
+.criterionRow { display:grid; gap:.35rem; margin-top:.6rem; }
+.resultsGrid { display:grid; gap:var(--space-4); grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
+.table { width:100%; border-collapse: collapse; }
+.table th,.table td { border-bottom:1px solid var(--app-border); padding:.45rem; text-align:left; }
+.commentPanel { display:grid; gap: .75rem; }
+.settingsGrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap: var(--space-4); }
+
+.shell :is(button,select,input,textarea):focus-visible { outline: 2px solid var(--app-focus); outline-offset: 2px; }
+
+@media (max-width: 900px) { .evaluationLayout { grid-template-columns: 1fr; } .competitorList { border-right:0; border-bottom:1px solid var(--app-border); padding-bottom:var(--space-3); } }

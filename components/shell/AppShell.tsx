@@ -1,10 +1,10 @@
 // components/shell/AppShell.tsx
 import AppNav from "@/components/nav/AppNav";
 import UserSheet from "@/components/user/UserMenu";
-import { auth } from "@/auth";
+import { safeAuth } from "@/lib/auth/safeAuth";
 
 export default async function AppShell({ children }: { children: React.ReactNode }) {
-  const session = await auth();
+  const session = await safeAuth();
   const me = session?.user ?? null;
 
   return (
